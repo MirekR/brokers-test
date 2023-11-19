@@ -1,4 +1,4 @@
-import { InsuranceRecord } from "../types/normalised";
+import { BusinessEvent, InsuranceRecord } from "../types/normalised";
 
 let DATABASE: InsuranceRecord[] = [];
 
@@ -28,7 +28,10 @@ class NormalisedDataRepo {
       .filter((row) => row.startDateTimestamp <= timestamp && row.endDateTimestamp >= timestamp) // filter active
       .reduce((reducedData: {}, current: InsuranceRecord) => {
         const previous = reducedData[current.policy] as InsuranceRecord;
-        if (previous?.businessEvent?.order || -1 < current?.businessEvent?.order || -1) {
+        if (
+          eventToOrder(previous?.businessEvent) < eventToOrder(current?.businessEvent) ||
+          toComparableTimestamp(current?.startDateTimestamp) > toComparableTimestamp(previous?.startDateTimestamp)
+        ) {
           reducedData[current.policy] = current;
         }
         return reducedData;
@@ -54,6 +57,15 @@ class NormalisedDataRepo {
   public async getTotalNumCustomers(source?: string, timestamp?: number): Promise<number> {
     return new Set((await this.getAllLatest(source, timestamp)).map((row) => row.client)).size;
   }
+}
+
+// Ensure we deal with empty and NaNs
+function toComparableTimestamp(timestamp?: number): number {
+  return timestamp || 0;
+}
+
+function eventToOrder(event?: BusinessEvent): number {
+  return event?.order || -1;
 }
 
 export const repo = new NormalisedDataRepo();
