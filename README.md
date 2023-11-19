@@ -34,6 +34,8 @@ On an actual project, there would be bit more coverage and focus on test but as 
 testing approach but happy to discuss more in depth next time.
 
 Test all coverage result from nyc (runs as part of the tests) and displays at the end.
+
+```
 --------------------------|---------|----------|---------|---------|-------------------
 File                      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
 --------------------------|---------|----------|---------|---------|-------------------
@@ -49,7 +51,7 @@ All files                 |      75 |       60 |   66.66 |   75.55 |
   csv-reader.ts           |      40 |      100 |       0 |      40 | 6-16              
   parse-utils.ts          |   80.95 |    64.28 |     100 |   80.95 | 36-40,44          
 --------------------------|---------|----------|---------|---------|-------------------
-
+```
 
 ### Other discussion
 •Ingest controllers•
