@@ -1,9 +1,8 @@
 import { assert } from "chai";
-import { repo } from "../repo/normalised-data-repo";
-import { InsightsController } from "./insights";
-import { InsuranceRecord } from "../types/normalised";
+import { repo } from "../../src/repo/normalised-data-repo";
+import { InsuranceRecord } from "../../src/types/normalised";
 
-describe("Insights contoller integration-test", () => {
+describe("Normalised data repository integration-test", () => {
   it("Init data", async () => {
     await repo.deleteAll();
     const testData: InsuranceRecord[] = [
@@ -126,18 +125,79 @@ describe("Insights contoller integration-test", () => {
     await repo.insert(testData);
   });
 
+  it("Total number of clients 23-24", async () => {
+    const totalNumberOfClients = await repo.getTotalNumCustomers();
+    assert.equal(totalNumberOfClients, 2);
+  });
+
   it("Total number of clients 24-25", async () => {
-    const response = await new InsightsController().getTotalNumCustomers(null, 1734652800000);
-    assert.equal(response.value, 1);
+    const totalNumberOfClients = await repo.getTotalNumCustomers(undefined, 1734652800000);
+    assert.equal(totalNumberOfClients, 1);
   });
 
   it("Total number of clients for one broker", async () => {
-    const response = await new InsightsController().getTotalNumCustomers("BROKER1");
-    assert.equal(response.value, 1);
+    const totalNumberOfClients = await repo.getTotalNumCustomers("BROKER1");
+    assert.equal(totalNumberOfClients, 1);
+  });
+
+  it("Total insured value", async () => {
+    const totalNumberOfClients = await repo.getTotalInsuredValue();
+    assert.equal(totalNumberOfClients, 1_250_000);
   });
 
   it("Total insured value for one broker", async () => {
-    const response = await new InsightsController().getTotalInsuredValue("BROKER1");
-    assert.equal(response.value, 750000);
+    const totalNumberOfClients = await repo.getTotalInsuredValue("BROKER1");
+    assert.equal(totalNumberOfClients, 750000);
+  });
+
+  it("Total number of polices", async () => {
+    const updatePolicy: InsuranceRecord = {
+      source: "BROKER2",
+      policy: "POL003",
+      amount: 400000,
+      startDateTimestamp: 1679270400000,
+      endDateTimestamp: 1710892800000,
+      adminFee: 50,
+      businessEvent: { type: "Update", order: 3 },
+      client: "Business PQR",
+      clientRef: "CR003",
+      clientType: "Corporate",
+      commission: 0.1,
+      insurer: "PQR Underwriters",
+      policyType: "Health",
+      product: "Health Insurance",
+      sourceData: {
+        PolicyNumber: "POL003",
+        InsuredAmount: "500000",
+        StartDate: "20/04/2023",
+        EndDate: "20/03/2024",
+        AdminFee: "50",
+        BusinessDescription: "Business PQR",
+        BusinessEvent: "Update",
+        ClientType: "Corporate",
+        ClientRef: "CR003",
+        Commission: "0.1",
+        EffectiveDate: "20/03/2023",
+        InsurerPolicyNumber: "IPN003",
+        IPTAmount: "75",
+        Premium: "4000",
+        PolicyFee: "25",
+        PolicyType: "Health",
+        Insurer: "PQR Underwriters",
+        Product: "Health Insurance",
+        RenewalDate: "20/03/2024",
+        RootPolicyRef: "RP003",
+      },
+    };
+
+    repo.insert([updatePolicy]);
+
+    const totalNumberOfClients = await repo.getTotalNumberOfPolicies();
+    assert.equal(totalNumberOfClients, 2);
+  });
+
+  it("Total insured value after policy update", async () => {
+    const totalNumberOfClients = await repo.getTotalInsuredValue();
+    assert.equal(totalNumberOfClients, 1_150_000);
   });
 });

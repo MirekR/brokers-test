@@ -1,5 +1,5 @@
 import { assert } from "chai";
-import * as utils from "./parse-utils";
+import * as utils from "../../src/utils/parse-utils";
 import { fail } from "assert";
 
 describe("Parse utils unit-test", () => {
