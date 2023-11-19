@@ -1,0 +1,4 @@
+export const BROKER1_SOURCE = "BROKER1"
+export const BROKER2_SOURCE = "BROKER2"
+
+export type KNOWN_BROKERS = "BROKER1" | "BROKER2";

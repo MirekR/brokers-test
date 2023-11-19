@@ -1,0 +1,390 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"IngestStatus": {
+				"type": "string",
+				"enum": [
+					"OK",
+					"Failed",
+					"Skipped"
+				]
+			},
+			"IngestStartResponse": {
+				"properties": {
+					"status": {
+						"$ref": "#/components/schemas/IngestStatus"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"status",
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ClientType": {
+				"type": "string",
+				"enum": [
+					"Corporate",
+					"Private"
+				]
+			},
+			"BusinessEventType": {
+				"type": "string",
+				"enum": [
+					"New",
+					"Renewal",
+					"Update"
+				]
+			},
+			"BusinessEvent": {
+				"properties": {
+					"type": {
+						"$ref": "#/components/schemas/BusinessEventType"
+					},
+					"order": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"type",
+					"order"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"InsuranceRecord": {
+				"properties": {
+					"source": {
+						"type": "string"
+					},
+					"policy": {
+						"type": "string"
+					},
+					"amount": {
+						"type": "number",
+						"format": "double"
+					},
+					"startDateTimestamp": {
+						"type": "number",
+						"format": "double"
+					},
+					"endDateTimestamp": {
+						"type": "number",
+						"format": "double"
+					},
+					"client": {
+						"type": "string"
+					},
+					"clientType": {
+						"$ref": "#/components/schemas/ClientType"
+					},
+					"clientRef": {
+						"type": "string"
+					},
+					"businessEvent": {
+						"$ref": "#/components/schemas/BusinessEvent"
+					},
+					"adminFee": {
+						"type": "number",
+						"format": "double"
+					},
+					"renewalDate": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"policyType": {
+						"type": "string"
+					},
+					"insurer": {
+						"type": "string"
+					},
+					"product": {
+						"type": "string"
+					},
+					"commission": {
+						"type": "number",
+						"format": "double"
+					},
+					"sourceData": {
+						"properties": {},
+						"type": "object"
+					}
+				},
+				"required": [
+					"source",
+					"policy",
+					"amount",
+					"client",
+					"clientType",
+					"clientRef",
+					"businessEvent",
+					"adminFee",
+					"policyType",
+					"insurer",
+					"product",
+					"commission",
+					"sourceData"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"KNOWN_BROKERS": {
+				"type": "string",
+				"enum": [
+					"BROKER1",
+					"BROKER2"
+				]
+			},
+			"NumericResponse": {
+				"properties": {
+					"value": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"value"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "Broker-Insight-Test",
+		"version": "1.0.0",
+		"description": "This README would normally document whatever steps are necessary to get your application up and running.",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {
+			"name": "Mirek Rousal"
+		}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/broker-api/broker-one-ingest/start-ingest": {
+			"post": {
+				"operationId": "StartIngest",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IngestStartResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"broker-one-ingest"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/broker-api/broker-two-ingest/start-ingest": {
+			"post": {
+				"operationId": "StartIngest",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IngestStartResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"broker-two-ingest"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/broker-api/insights": {
+			"get": {
+				"operationId": "GetAll",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/InsuranceRecord"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"insights"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "source",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/KNOWN_BROKERS"
+						}
+					},
+					{
+						"in": "query",
+						"name": "activeAtTimestamp",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/broker-api/insights/total-number-of-policies": {
+			"get": {
+				"operationId": "GetTotalNumberOfPolicies",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/NumericResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"insights"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "source",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/KNOWN_BROKERS"
+						}
+					},
+					{
+						"in": "query",
+						"name": "activeAtTimestamp",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/broker-api/insights/total-insured-value": {
+			"get": {
+				"operationId": "GetTotalInsuredValue",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/NumericResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"insights"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "source",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/KNOWN_BROKERS"
+						}
+					},
+					{
+						"in": "query",
+						"name": "activeAtTimestamp",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/broker-api/insights/total-number-of-customers": {
+			"get": {
+				"operationId": "GetTotalNumCustomers",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/NumericResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"insights"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "source",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/KNOWN_BROKERS"
+						}
+					},
+					{
+						"in": "query",
+						"name": "activeAtTimestamp",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}
