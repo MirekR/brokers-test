@@ -2,8 +2,7 @@ require("dotenv").config();
 import express from "express";
 import morgan from "morgan";
 import swaggerUi from "swagger-ui-express";
-import brokerOneIngestRoutes from "./routes/broker-one-ingest";
-import brokerTwoIngestRoutes from "./routes/broker-two-ingest";
+import brokerIngestRoutes from "./routes/broker-ingest";
 import insightsRoutes from "./routes/insights";
 
 const app = express();
@@ -30,8 +29,7 @@ app.use(
 );
 
 // Docs: path prefix per (micro) service for cleaner mapping on loadbalancers 
-app.use(`/broker-api/broker-one-ingest/`, brokerOneIngestRoutes);
-app.use(`/broker-api/broker-two-ingest/`, brokerTwoIngestRoutes);
+app.use(`/broker-api/broker-ingest/`, brokerIngestRoutes);
 app.use(`/broker-api/insights/`, insightsRoutes);
 
 // health check

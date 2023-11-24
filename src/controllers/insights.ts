@@ -12,25 +12,25 @@ interface NumericResponse {
 export class InsightsController {
   @Get()
   public async getAll(@Query() source?: KNOWN_BROKERS, @Query() activeAtTimestamp?: number): Promise<InsuranceRecord[]> {
-    return repo.getAllLatest(source, activeAtTimestamp);
+    return repo().getAllLatest(source, activeAtTimestamp);
   }
 
   @Get("/total-number-of-policies")
   public async getTotalNumberOfPolicies(@Query() source?: KNOWN_BROKERS, @Query() activeAtTimestamp?: number): Promise<NumericResponse> {
     return {
-      value: await repo.getTotalNumberOfPolicies(source, activeAtTimestamp),
+      value: await repo().getTotalNumberOfPolicies(source, activeAtTimestamp),
     };
   }
 
   @Get("/total-insured-value")
   public async getTotalInsuredValue(@Query() source?: KNOWN_BROKERS, @Query() activeAtTimestamp?: number): Promise<NumericResponse> {
     return {
-      value: await repo.getTotalInsuredValue(source, activeAtTimestamp),
+      value: await repo().getTotalInsuredValue(source, activeAtTimestamp),
     };
   }
 
   @Get("/total-number-of-customers")
   public async getTotalNumCustomers(@Query() source?: KNOWN_BROKERS, @Query() activeAtTimestamp?: number): Promise<NumericResponse> {
-    return { value: await repo.getTotalNumCustomers(source, activeAtTimestamp) };
+    return { value: await repo().getTotalNumCustomers(source, activeAtTimestamp) };
   }
 }

@@ -30,6 +30,13 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"KNOWN_BROKERS": {
+				"type": "string",
+				"enum": [
+					"BROKER1",
+					"BROKER2"
+				]
+			},
 			"ClientType": {
 				"type": "string",
 				"enum": [
@@ -138,13 +145,6 @@
 				"type": "object",
 				"additionalProperties": false
 			},
-			"KNOWN_BROKERS": {
-				"type": "string",
-				"enum": [
-					"BROKER1",
-					"BROKER2"
-				]
-			},
 			"NumericResponse": {
 				"properties": {
 					"value": {
@@ -174,7 +174,7 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
-		"/broker-api/broker-one-ingest/start-ingest": {
+		"/broker-api/broker-ingest/start-ingest": {
 			"post": {
 				"operationId": "StartIngest",
 				"responses": {
@@ -190,32 +190,19 @@
 					}
 				},
 				"tags": [
-					"broker-one-ingest"
+					"broker-ingest"
 				],
 				"security": [],
-				"parameters": []
-			}
-		},
-		"/broker-api/broker-two-ingest/start-ingest": {
-			"post": {
-				"operationId": "StartIngest",
-				"responses": {
-					"200": {
-						"description": "Ok",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/IngestStartResponse"
-								}
-							}
+				"parameters": [
+					{
+						"in": "query",
+						"name": "source",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/KNOWN_BROKERS"
 						}
 					}
-				},
-				"tags": [
-					"broker-two-ingest"
-				],
-				"security": [],
-				"parameters": []
+				]
 			}
 		},
 		"/broker-api/insights": {

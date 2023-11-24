@@ -4,7 +4,7 @@ let DATABASE: InsuranceRecord[] = [];
 
 // Normally this would be database some sort and would need to be async -> making sure we would not need to change code once
 // DB was decided
-class NormalisedDataRepo {
+export class NormalisedDataRepo {
   public async deleteAll() {
     DATABASE = [];
   }
@@ -68,4 +68,4 @@ function eventToOrder(event?: BusinessEvent): number {
   return event?.order || -1;
 }
 
-export const repo = new NormalisedDataRepo();
+export const repo = () => new NormalisedDataRepo();

@@ -20,6 +20,6 @@
   },
   "include": [
     "src/**/*"
-  ],
+, "tests/processors/csv-processor-test.ts"  ],
   "exclude": ["./tests/"]
 }

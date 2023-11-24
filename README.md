@@ -39,13 +39,15 @@ Test all coverage result from nyc (runs as part of the tests) and displays at th
 --------------------------|---------|----------|---------|---------|-------------------
 File                      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
 --------------------------|---------|----------|---------|---------|-------------------
-All files                 |      75 |       60 |   66.66 |   75.55 |                   
- controllers              |   68.42 |        0 |    37.5 |   70.58 |                   
-  broker-one-ingest.ts    |   61.53 |        0 |      25 |   65.21 | 19-33             
+All files                 |   80.53 |     57.4 |   69.44 |   79.61 |                   
+ controllers              |    87.5 |       50 |      60 |   86.36 |                   
+  broker-ingest.ts        |   91.66 |       50 |     100 |    90.9 | 16                
   insights.ts             |   83.33 |      100 |      50 |   81.81 | 15,20             
- repo                     |      92 |    61.76 |    87.5 |    91.3 |                   
-  failed-data-repo.ts     |      75 |      100 |      50 |      75 | 23                
-  normalised-data-repo.ts |   95.23 |    61.76 |   92.85 |   94.73 | 64                
+ processors               |      80 |        0 |   71.42 |   78.26 |                   
+  csv-processor.ts        |      80 |        0 |   71.42 |   78.26 | 34-40,71          
+ repo                     |   87.09 |    61.76 |   77.77 |      88 |                   
+  failed-data-repo.ts     |   57.14 |      100 |       0 |      60 | 15-23             
+  normalised-data-repo.ts |   95.83 |    61.76 |   93.33 |      95 | 64                
  utils                    |   69.69 |    64.28 |      50 |   69.69 |                   
   consts.ts               |     100 |      100 |     100 |     100 |                   
   csv-reader.ts           |      40 |      100 |       0 |      40 | 6-16              

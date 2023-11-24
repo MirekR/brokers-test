@@ -4,7 +4,7 @@ import { InsuranceRecord } from "../../src/types/normalised";
 
 describe("Normalised data repository integration-test", () => {
   it("Init data", async () => {
-    await repo.deleteAll();
+    await repo().deleteAll();
     const testData: InsuranceRecord[] = [
       {
         source: "BROKER1",
@@ -122,31 +122,31 @@ describe("Normalised data repository integration-test", () => {
       },
     ];
 
-    await repo.insert(testData);
+    await repo().insert(testData);
   });
 
   it("Total number of clients 23-24", async () => {
-    const totalNumberOfClients = await repo.getTotalNumCustomers();
+    const totalNumberOfClients = await repo().getTotalNumCustomers();
     assert.equal(totalNumberOfClients, 2);
   });
 
   it("Total number of clients 24-25", async () => {
-    const totalNumberOfClients = await repo.getTotalNumCustomers(undefined, 1734652800000);
+    const totalNumberOfClients = await repo().getTotalNumCustomers(undefined, 1734652800000);
     assert.equal(totalNumberOfClients, 1);
   });
 
   it("Total number of clients for one broker", async () => {
-    const totalNumberOfClients = await repo.getTotalNumCustomers("BROKER1");
+    const totalNumberOfClients = await repo().getTotalNumCustomers("BROKER1");
     assert.equal(totalNumberOfClients, 1);
   });
 
   it("Total insured value", async () => {
-    const totalNumberOfClients = await repo.getTotalInsuredValue();
+    const totalNumberOfClients = await repo().getTotalInsuredValue();
     assert.equal(totalNumberOfClients, 1_250_000);
   });
 
   it("Total insured value for one broker", async () => {
-    const totalNumberOfClients = await repo.getTotalInsuredValue("BROKER1");
+    const totalNumberOfClients = await repo().getTotalInsuredValue("BROKER1");
     assert.equal(totalNumberOfClients, 750000);
   });
 
@@ -190,14 +190,14 @@ describe("Normalised data repository integration-test", () => {
       },
     };
 
-    repo.insert([updatePolicy]);
+    repo().insert([updatePolicy]);
 
-    const totalNumberOfClients = await repo.getTotalNumberOfPolicies();
+    const totalNumberOfClients = await repo().getTotalNumberOfPolicies();
     assert.equal(totalNumberOfClients, 2);
   });
 
   it("Total insured value after policy update", async () => {
-    const totalNumberOfClients = await repo.getTotalInsuredValue();
+    const totalNumberOfClients = await repo().getTotalInsuredValue();
     assert.equal(totalNumberOfClients, 1_150_000);
   });
 });
