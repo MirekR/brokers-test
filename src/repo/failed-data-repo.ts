@@ -7,7 +7,7 @@ interface ErroredData {
 
 const DATABASE: ErroredData[] = [];
 
-class FailedDataRepo {
+export class FailedDataRepo {
   // Normally this would be database some sort and would need to be async -> making sure we would not need to change code once
   // DB was decided
 
@@ -24,4 +24,4 @@ class FailedDataRepo {
   }
 }
 
-export const repo = new FailedDataRepo();
+export const repo = () => new FailedDataRepo();

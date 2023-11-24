@@ -5,7 +5,7 @@ import { InsuranceRecord } from "../../src/types/normalised";
 
 describe("Insights contoller integration-test", () => {
   it("Init data", async () => {
-    await repo.deleteAll();
+    await repo().deleteAll();
     const testData: InsuranceRecord[] = [
       {
         source: "BROKER1",
@@ -123,7 +123,7 @@ describe("Insights contoller integration-test", () => {
       },
     ];
 
-    await repo.insert(testData);
+    await repo().insert(testData);
   });
 
   it("Total number of clients 24-25", async () => {
